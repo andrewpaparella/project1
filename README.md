@@ -11,6 +11,7 @@ More CSS to make the game appear better.
 <br>Card animations when delt. 
 
 ###Start Link
+https://andrewpaparella.github.io/project1/
 
 ##Rules
 1:	Betting will be placed before the round starts. After the round is started, no changes to bets will be allowed. Click on the circle betting chips to reduce your bankroll and add the amount to your betting pile.
