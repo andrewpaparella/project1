@@ -2,18 +2,21 @@
 const bjApp = {};
 
 bjApp.suit = ["Hearts", "Spades", "Clovers", "Diamonds"]
-bjApp.value = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1 || 11]
+bjApp.value = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
 bjApp.face = ["Ace", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Jack", "Queen", "King"]
 bjApp.playerHand = [];
 bjApp.dealerHand = [];
 bjApp.deck = [];
-bjApp.randomCard = "";
+bjApp.randomCard =[];
+bjApp.dealerImg = [];
+bjApp.playerImg = [];
 
 // card constructor
-function card(suit, value, face) {
+function card(suit, value, face, imgValue) {
     this.suit = suit;
     this.value = value;
     this.face = face;
+    this.imgValue = imgValue;
 };
 
 const player = {
@@ -34,17 +37,28 @@ const dTotalEl = document.querySelector('#dealer h2')
 const playButtonEl = document.getElementById('play')
 const resultsEl = document.querySelector('#results h1')
 const betButtonsEl = document.querySelectorAll('.bet')
+const pHandEl3 = document.getElementById('phand3')
+const pHandEl4 = document.getElementById('phand4')
+const pHandEl5 = document.getElementById('phand5')
+const pHandEl6 = document.getElementById('phand6')
+const pHandEl7 = document.getElementById('phand7')
+const dHandEl3 = document.getElementById('dhand3')
+const dHandEl4 = document.getElementById('dhand4')
+const dHandEl5 = document.getElementById('dhand5')
+const dHandEl6 = document.getElementById('dhand6')
+const dHandEl7 = document.getElementById('dhand7')
+
 
 
 // event listeners
-document.querySelector('#bet1').addEventListener('click', bet1);
-document.querySelector('#bet5').addEventListener('click', bet5);
-document.querySelector('#bet10').addEventListener('click', bet10);
-document.querySelector('#bet25').addEventListener('click', bet25);
-document.querySelector('#bet50').addEventListener('click', bet50);
+document.querySelector('#bet1').addEventListener('click', handleBet);
+document.querySelector('#bet5').addEventListener('click', handleBet);
+document.querySelector('#bet10').addEventListener('click', handleBet);
+document.querySelector('#bet25').addEventListener('click', handleBet);
+document.querySelector('#bet50').addEventListener('click', handleBet);
 document.querySelector('#hit').addEventListener('click', hit);
 document.querySelector('#play').addEventListener('click', play);
-document.querySelector('#stand').addEventListener('click', stand)
+document.querySelector('#stand').addEventListener('click', computerTurn)
 
 // Functions
 
@@ -65,27 +79,145 @@ function play() {
     }
 }
 
+// first loop goes through the suits (4 suits)
+// second loop goes through the values (13 cards)
+
 function createDeck(){
     bjApp.deck = [];
     for (let a=0; a < bjApp.suit.length; a++) {
         for (let b=0; b < bjApp.face.length; b++) {
-            let cardValue = b + 1;
-            var cardTitle = "";
-            if (cardValue > 10) {
-                cardValue = 10;
-            }
-            if (cardValue != 1) {
-                cardTitle += (bjApp.face[b] + ' of ' + bjApp.suit[a] + ' (' + cardValue + ")");
+            /// this part will add text per card
+            let cardTitle = "";
+            if ( b === 0) {
+                cardTitle += `${bjApp.face[b]} of ${bjApp.suit[a]}(${bjApp.value[b]} or 11)`;
             }
             else {
-                cardTitle += (bjApp.face[b] + " of " + bjApp.suit[a] + ' (' + cardValue + ' or 11)');
+                cardTitle += `${bjApp.face[b]} of ${bjApp.suit[a]}(${bjApp.value[b]})`;
             }
-            let newCard = new card(bjApp.suit[a], cardValue, cardTitle);
+            /// this part asigns an imgValue per card which will later become a class tag to render a card picture
+            let imgValue = "";
+            if (a === 0){
+                if (b === 9) {
+                    imgValue += "h10";
+                }
+                else if (b === 10) {
+                    imgValue += "hJ";
+                }
+                else if (b === 11) {
+                    imgValue += "hQ";
+                } 
+                else if (b === 12) {
+                    imgValue += "hK";
+                } 
+                else if (b === 0) {
+                    imgValue += "hA";
+                } 
+                else {
+                    imgValue = 'h'+0+bjApp.value[b];
+                }
+            }
+            if (a === 1){
+                if (b === 9) {
+                    imgValue += "s10";
+                }
+                else if (b === 10) {
+                    imgValue += "sJ";
+                }
+                else if (b === 11) {
+                    imgValue += "sQ";
+                }
+                else if (b === 12) {
+                    imgValue += "sK";
+                }
+                else if (b === 0) {
+                    imgValue += "sA"
+                }
+                else {
+                    imgValue = 's'+0+bjApp.value[b] 
+                } 
+            }
+            if (a === 2){
+                if (b === 9) {
+                    imgValue += "c10"
+                }
+                else if (b === 10) {
+                    imgValue += "cJ"
+                }
+                else if (b === 11) {
+                    imgValue += "cQ"
+                }
+                else if (b === 12) {
+                    imgValue += "cK"
+                }
+                else if (b === 0) {
+                    imgValue += "cA"
+                }
+                else {
+                    imgValue += 'c'+0+bjApp.value[b] 
+                } 
+            }
+            if (a === 3){
+                if (b === 9) {
+                    imgValue += "d10"
+                }
+                else if (b === 10) {
+                    imgValue += "dJ"
+                }
+                else if (b === 11) {
+                    imgValue += "dQ"
+                }
+                else if (b === 12) {
+                    imgValue += "dK"
+                }
+                else if (b === 0) {
+                    imgValue += "dA"
+                }
+                else {
+                    imgValue += 'd'+0+bjApp.value[b] 
+                } 
+            }
+            let newCard = new card(bjApp.suit[a], bjApp.value[b], cardTitle, imgValue);
             bjApp.deck.push(newCard);
         }
     }
-    shuffleDeck();
-};
+} 
+
+function printImg(){
+    let playerImg = bjApp.playerHand.map(card => card.imgValue);
+    let dealerImg = bjApp.dealerHand.map(card => card.imgValue);
+    dHandEl2.classList.add("card", dealerImg[0])
+    dHandEl3.classList.add("card", dealerImg[1])
+    dHandEl4.classList.add("card", dealerImg[2])
+    dHandEl5.classList.add("card", dealerImg[3])
+    dHandEl6.classList.add("card", dealerImg[4])
+    dHandEl7.classList.add("card", dealerImg[5])
+    pHandEl2.classList.add("card", playerImg[0])
+    pHandEl3.classList.add("card", playerImg[1])
+    pHandEl4.classList.add("card", playerImg[2])
+    pHandEl5.classList.add("card", playerImg[3])
+    pHandEl6.classList.add("card", playerImg[4])
+    pHandEl7.classList.add("card", playerImg[5])
+}
+
+
+
+function pickRandomCard(){
+    bjApp.randomNum = Math.floor(Math.random() * bjApp.deck.length);
+    bjApp.randomCard = bjApp.deck.splice(bjApp.randomNum, 1);
+}
+
+function playerHit(){
+    pickRandomCard();
+    bjApp.playerHand.push(bjApp.randomCard.pop());
+}
+
+function dealerHit(){
+    pickRandomCard();
+    bjApp.dealerHand.push(bjApp.randomCard.pop());
+}
+
+// this function will make a new array with the card values of each hand.
+// this function uses the .reduce method to the new array to gather the sum of the cards
 
 function sumOfCards() {
     let playerTotal = bjApp.playerHand.map(card => card.value)
@@ -96,6 +228,9 @@ function sumOfCards() {
     dealerSum = dealerTotal.reduce((a, b) => {
         return a + b;
     });
+
+    //  checks for aces. if an ace is found, does an if statement to check if the sum is under 22. 
+    //  if under 22 it will add 10 to make the value of the ace 11
     let pAces = 0;
     let dAces = 0;
     for (let i = 0; i < playerTotal.length; i++){
@@ -120,16 +255,18 @@ function sumOfCards() {
     }
 }
 
+//we only deal 3 cards and give a "fake" hidden card to the dealer
+
 function dealCards(){
-    bjApp.playerHand = [];
-    bjApp.dealerHand = [];
-    bjApp.dealerHand.push(bjApp.deck.pop());
-    bjApp.playerHand.push(bjApp.deck.pop());
-    bjApp.playerHand.push(bjApp.deck.pop());
+    playerHit();
+    dealerHit();
+    playerHit();
 }
 
+// this function is used for the player whenever they request another card
+
 function hit(){
-    bjApp.playerHand.push(bjApp.deck.pop());
+    playerHit();
     sumOfCards();
     fakeRender();
     if (playerSum > 21){
@@ -142,14 +279,9 @@ function hit(){
     }
 }
 
-function stand(){
-    computerTurn();
-    render();
-}
-
 function computerTurn(){
     if (dealerSum < 17) {
-        bjApp.dealerHand.push(bjApp.deck.pop());
+        dealerHit();
         sumOfCards();
         render();
         setTimeout(computerTurn, 1200);
@@ -157,18 +289,19 @@ function computerTurn(){
 }
 
 
-//Weird function to hide a dealers card
+//Weird function to hide a dealers card. All renders before computerTurn() should use this function.
 function fakeRender(){
     moneyEl.textContent = player.bank;
     betEl.textContent = player.bet;
     let playerCards = bjApp.playerHand.map(card => card.face)
     let dealerCards = bjApp.dealerHand.map(card => card.face)
     pHandEl1.textContent = playerCards;
-    dHandEl1.textContent = dealerCards + "Hidden Card";
+    dHandEl1.textContent = dealerCards + ", Hidden Card";
     pTotalEl.textContent = playerSum;
     dTotalEl.textContent = dealerSum;
+    printImg();
 }
-// real function to render elements on the page
+// real function to render ALL elements on the page. All renders after computerTurn() should use this function.
 function render(){
     moneyEl.textContent = player.bank;
     betEl.textContent = player.bet;
@@ -178,9 +311,10 @@ function render(){
     dHandEl1.textContent = dealerCards;
     pTotalEl.textContent = playerSum;
     dTotalEl.textContent = dealerSum;
+    printImg();
 }
 
-
+// Hard resets all current elements on the board and returns to original state
 function reset(){
     betEl.textContent = "0";
     player.bet = 0;
@@ -191,18 +325,19 @@ function reset(){
     dealerSum = 0;
     showBets();
     render();
+    resetImg();
 }
 
-
+// win logic behind determining the winner
 function winCondition() {
     if (playerSum > 21){
-        resultsEl.textContent = `You have busted with ${playerSum} You have lost ${player.bet}`;
+        resultsEl.textContent = `You have busted with ${playerSum}. You have lost ${player.bet}`;
         processLose();
         reset();
         return
     }
     if (dealerSum > 21){
-        resultsEl.textContent = `The dealer has busted with ${dealerSum} You have won ` + player.bet * 2;
+        resultsEl.textContent = `The dealer has busted with ${dealerSum}. You have won ` + player.bet * 2;
         processWin();
         reset();
         return
@@ -220,76 +355,27 @@ function winCondition() {
         return
     }
     if (dealerSum === playerSum){
-        resultsEl.textContent = `The dealer and you have tied. You both had ${playerSum}. Your bet of ` + player.bet + " has been added back into your bankroll.";
+        resultsEl.textContent = `The dealer and you have tied. You both had ${playerSum}. Your bet of ${player.bet}has been added back into your bankroll.`;
         processTie();
         reset();
         return
     }
 }
 
-// function handleBet(target.textContent) {
-//     if(player.bank < target) {
-//     resultsEl.textContent = `you have $ ${player.bank} left.`
-//     }
-//     player.bank -= event.target;
-//     player.bet += event.target;
-//     render();
-// } 
+//bet functions
 
-function bet1() {
-    if (player.bank <= 0) {
-        resultsEl.textContent = 'You do not have enough money'
+function handleBet(x) {
+    let betValue = Number(this.textContent)
+    if(player.bank < betValue) {
+        resultsEl.textContent = `You cannot bet ${betValue}. You have $ ${player.bank} left.`
         return;
-    } else {
-        player.bank -= 1;
-        player.bet += 1;
-        render();
     }
-}
+    player.bank -= betValue;
+    player.bet += betValue;
+    render();
+} 
 
-function bet5() {
-    if (player.bank < 5) {
-        resultsEl.textContent = 'You do not have enough money'
-       return;
-   } else {
-        player.bank -= 5;
-        player.bet += 5;
-        render();
-   }
-}
-
-function bet10() {
-    if (player.bank < 10) {
-        resultsEl.textContent = 'You do not have enough money'
-       return;
-   } else {
-        player.bank -= 10;
-        player.bet += 10;
-        render();
-   }
-}
-
-function bet25() {
-    if (player.bank < 25) {
-        resultsEl.textContent = 'You do not have enough money'
-       return;
-   } else {
-       player.bank -= 25;
-       player.bet += 25;
-       render();
-   }
-}
-
-function bet50() {
-    if (player.bank < 50) {
-        resultsEl.textContent = 'You do not have enough money'
-       return;
-   } else {
-        player.bank -= 50;
-        player.bet += 50;
-        render();
-   }
-}
+// these functions is invoked after a winner is determined
 
 function processWin() {
     let winnings = player.bet * 2;
@@ -311,14 +397,6 @@ function processTie() {
     reset();
 }
 
-function shuffleDeck(){
-    for (let i = bjApp.deck.length - 1; i > 0; i--) {
-        const newIndex = Math.floor(Math.random() * (i +1))
-        const oldValue = bjApp.deck[newIndex]
-        bjApp.deck[newIndex] = bjApp.deck[i]
-        bjApp.deck[i] = oldValue
-    }
-};
 /// this causes the bet buttons to disappear
 function hideBets(){
     document.getElementById('bet1').classList.add('hidden');
@@ -340,4 +418,19 @@ function showBets(){
     document.getElementById('stand').classList.add('hidden');
     document.getElementById('hit').classList.add('hidden');
     document.getElementById('play').classList.remove('hidden');
+}
+
+function resetImg(){
+    dHandEl2.classList.remove("card","dA","dK", "dQ", "dJ", "d10", "d09", "d08", "d07", "d06", "d05", "d04", "d03", "d02","hA","hK", "hQ", "hJ", "h10", "h09", "h08", "h07", "h06", "h05", "h04", "h03", "h02","sA","sK", "sQ", "sJ", "s10", "s09", "s08", "s07", "s06", "s05", "s04", "s03", "s02","cA","cK", "cQ", "cJ", "c10", "c09", "c08", "c07", "c06", "c05", "c04", "c03", "c02")
+    dHandEl3.classList.remove("card","dA","dK", "dQ", "dJ", "d10", "d09", "d08", "d07", "d06", "d05", "d04", "d03", "d02","hA","hK", "hQ", "hJ", "h10", "h09", "h08", "h07", "h06", "h05", "h04", "h03", "h02","sA","sK", "sQ", "sJ", "s10", "s09", "s08", "s07", "s06", "s05", "s04", "s03", "s02","cA","cK", "cQ", "cJ", "c10", "c09", "c08", "c07", "c06", "c05", "c04", "c03", "c02")
+    dHandEl4.classList.remove("card","dA","dK", "dQ", "dJ", "d10", "d09", "d08", "d07", "d06", "d05", "d04", "d03", "d02","hA","hK", "hQ", "hJ", "h10", "h09", "h08", "h07", "h06", "h05", "h04", "h03", "h02","sA","sK", "sQ", "sJ", "s10", "s09", "s08", "s07", "s06", "s05", "s04", "s03", "s02","cA","cK", "cQ", "cJ", "c10", "c09", "c08", "c07", "c06", "c05", "c04", "c03", "c02")
+    dHandEl5.classList.remove("card","dA","dK", "dQ", "dJ", "d10", "d09", "d08", "d07", "d06", "d05", "d04", "d03", "d02","hA","hK", "hQ", "hJ", "h10", "h09", "h08", "h07", "h06", "h05", "h04", "h03", "h02","sA","sK", "sQ", "sJ", "s10", "s09", "s08", "s07", "s06", "s05", "s04", "s03", "s02","cA","cK", "cQ", "cJ", "c10", "c09", "c08", "c07", "c06", "c05", "c04", "c03", "c02")
+    dHandEl6.classList.remove("card","dA","dK", "dQ", "dJ", "d10", "d09", "d08", "d07", "d06", "d05", "d04", "d03", "d02","hA","hK", "hQ", "hJ", "h10", "h09", "h08", "h07", "h06", "h05", "h04", "h03", "h02","sA","sK", "sQ", "sJ", "s10", "s09", "s08", "s07", "s06", "s05", "s04", "s03", "s02","cA","cK", "cQ", "cJ", "c10", "c09", "c08", "c07", "c06", "c05", "c04", "c03", "c02")
+    dHandEl7.classList.remove("card","dA","dK", "dQ", "dJ", "d10", "d09", "d08", "d07", "d06", "d05", "d04", "d03", "d02","hA","hK", "hQ", "hJ", "h10", "h09", "h08", "h07", "h06", "h05", "h04", "h03", "h02","sA","sK", "sQ", "sJ", "s10", "s09", "s08", "s07", "s06", "s05", "s04", "s03", "s02","cA","cK", "cQ", "cJ", "c10", "c09", "c08", "c07", "c06", "c05", "c04", "c03", "c02")
+    pHandEl2.classList.remove("card","dA","dK", "dQ", "dJ", "d10", "d09", "d08", "d07", "d06", "d05", "d04", "d03", "d02","hA","hK", "hQ", "hJ", "h10", "h09", "h08", "h07", "h06", "h05", "h04", "h03", "h02","sA","sK", "sQ", "sJ", "s10", "s09", "s08", "s07", "s06", "s05", "s04", "s03", "s02","cA","cK", "cQ", "cJ", "c10", "c09", "c08", "c07", "c06", "c05", "c04", "c03", "c02")
+    pHandEl3.classList.remove("card","dA","dK", "dQ", "dJ", "d10", "d09", "d08", "d07", "d06", "d05", "d04", "d03", "d02","hA","hK", "hQ", "hJ", "h10", "h09", "h08", "h07", "h06", "h05", "h04", "h03", "h02","sA","sK", "sQ", "sJ", "s10", "s09", "s08", "s07", "s06", "s05", "s04", "s03", "s02","cA","cK", "cQ", "cJ", "c10", "c09", "c08", "c07", "c06", "c05", "c04", "c03", "c02")
+    pHandEl4.classList.remove("card","dA","dK", "dQ", "dJ", "d10", "d09", "d08", "d07", "d06", "d05", "d04", "d03", "d02","hA","hK", "hQ", "hJ", "h10", "h09", "h08", "h07", "h06", "h05", "h04", "h03", "h02","sA","sK", "sQ", "sJ", "s10", "s09", "s08", "s07", "s06", "s05", "s04", "s03", "s02","cA","cK", "cQ", "cJ", "c10", "c09", "c08", "c07", "c06", "c05", "c04", "c03", "c02")
+    pHandEl5.classList.remove("card","dA","dK", "dQ", "dJ", "d10", "d09", "d08", "d07", "d06", "d05", "d04", "d03", "d02","hA","hK", "hQ", "hJ", "h10", "h09", "h08", "h07", "h06", "h05", "h04", "h03", "h02","sA","sK", "sQ", "sJ", "s10", "s09", "s08", "s07", "s06", "s05", "s04", "s03", "s02","cA","cK", "cQ", "cJ", "c10", "c09", "c08", "c07", "c06", "c05", "c04", "c03", "c02")
+    pHandEl6.classList.remove("card","dA","dK", "dQ", "dJ", "d10", "d09", "d08", "d07", "d06", "d05", "d04", "d03", "d02","hA","hK", "hQ", "hJ", "h10", "h09", "h08", "h07", "h06", "h05", "h04", "h03", "h02","sA","sK", "sQ", "sJ", "s10", "s09", "s08", "s07", "s06", "s05", "s04", "s03", "s02","cA","cK", "cQ", "cJ", "c10", "c09", "c08", "c07", "c06", "c05", "c04", "c03", "c02")
+    pHandEl7.classList.remove("card","dA","dK", "dQ", "dJ", "d10", "d09", "d08", "d07", "d06", "d05", "d04", "d03", "d02","hA","hK", "hQ", "hJ", "h10", "h09", "h08", "h07", "h06", "h05", "h04", "h03", "h02","sA","sK", "sQ", "sJ", "s10", "s09", "s08", "s07", "s06", "s05", "s04", "s03", "s02","cA","cK", "cQ", "cJ", "c10", "c09", "c08", "c07", "c06", "c05", "c04", "c03", "c02")
 }

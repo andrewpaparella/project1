@@ -1,24 +1,73 @@
+*, *::after, *::before {
+    box-sizing: border-box;
+    background-color: green;
+}
 
-
-main {
+body {
+    margin: 0;
     display: flex;
-    align-content: center;
+    height: 100vh;
+    flex-direction: column;
     justify-content: center;
-    padding: 100px;
+    align-items: center;
 }
 
-
-#player, #dealer, #money, #bets{
-    margin: 100px;
+#board {
+    display: absolute;
+    top: 100px;
+    padding-top: 100px;
 }
 
-#computer {
-    margin: 100px;
+#dealer {
+    font-display: top;
+    width: 500px;
+    height: 200px;
+    border: 5px solid #000;
+    margin: 40px;
+    font-size: 20px;
+    text-align: center;
 }
 
+#player {
+    font-display: top;
+    width: 500px;
+    height: 200px;
+    border: 5px solid #000;
+    margin: 40px 0px 0px 0px;
+    font-size: 20px;
+    text-align: center;
+}
 
-#hit, #play, #stand {
+#money {
+    width: 500px;
+    height: 200px;
+    margin: 40px;
+    font-size: 20px;
+    text-align: center;
+    padding-bottom: 50px;
+    margin-bottom: 100px;
+}
+
+#results {
+    font-display: top;
+    width: 500px;
+    height: 200px;
+    border: 5px solid #000;
+    margin: 40px;
+    font-size: 20px;
+    text-align: center;
+}
+#play, #stand {
+    display: flex;
     margin: 0% 49%;
+    border: 5px solid red;
+    color: red;
+    border-radius: 5px;
+    background: black;
+}
+
+#hit {
+    display: flex;
     border: 5px solid red;
     color: red;
     border-radius: 5px;
@@ -27,13 +76,18 @@ main {
 
 #bet1, #bet5, #bet10, #bet25, #bet50 {
     display: flex;
-    justify-content: center;
-    align-content: center;
+    place-self: center;
+    grid-column-start: 5;
+    grid-row-start: 5;
     color: white;
     background: black;
     border: 5px dashed red;
     border-radius: 50%;
+    height: 30px;
+    width: 30px;
+    text-align: center;
 }
+
 
 .hidden {
     visibility: hidden;

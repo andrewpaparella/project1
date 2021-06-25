@@ -6,45 +6,59 @@
 		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
 		<title>BlackJack</title>
 		<link rel="stylesheet" href="css/main.css" />
+		<link rel="stylesheet" href="card-deck-css/css/cardstarter.css" />
 		<script defer src="js/main.js"></script>
 	</head>
 	<body>
-		<main>
-			<section id="player">
-				<h1>Player</h1>
-				<h2>0</h2>
-				<div>
-                    <div id="phand1">card1</div>
-					<div id="phand2"></div>
-				</div>
-			</section>
-			<section id="dealer">
-				<h1>Dealer</h1>
-				<h2>0</h2>
-				<div>
-                    <div id="dhand1">card1</div>
-					<div id="dhand2"></div>
-				</div>
-			</section>
-            <section id="money">
-                <h1>Bankroll</h1>
-                <h2 id="bankroll">100</h2>
-            </section>
-            <section id="bets">
-                <h1>Running Bet</h1>
-                <h2>0</h2>
-            </section>
-            <section id="results">
-                <h1></h1>
-            </section>
-		</main>
-        <button class="bet" id="bet1">1</button>
-        <button class="bet" id="bet5">5</button>
-        <button class="bet" id="bet10">10</button>
-        <button class="bet" id="bet25">25</button>
-        <button class="bet" id="bet50">50</button>
+		<section id="board">
+			<h1>Andrew's Blackjack</h1>
+		</section>
+		<section id="dealer">
+			<h1>Dealer</h1>
+			<h2></h2>
+			<div>
+                <div id="dhand1"></div>
+				<div id="dhand2"></div>
+				<div id="dhand3"></div>
+				<div id="dhand4"></div>
+				<div id="dhand5"></div>
+				<div id="dhand6"></div>
+				<div id="dhand7"></div>
+			</div>
+		</section>
+        <section id="money">
+            <h1>Bankroll</h1>
+            <h2 id="bankroll">100</h2>
+        <div id="bets">
+            <h1>Running Bet</h1>
+            <h2>0</h2>
+		</div>
+		</section>
+		<section id="bet">
+        	<button class="bet" id="bet1">1</button>
+        	<button class="bet" id="bet5">5</button>
+        	<button class="bet" id="bet10">10</button>
+        	<button class="bet" id="bet25">25</button>
+        	<button class="bet" id="bet50">50</button>
+		</section>
+		<section id="player">
+			<h1>Player</h1>
+			<h2></h2>
+			<div>
+                <div id="phand1"></div>
+				<div id="phand2"></div>
+				<div id="phand3"></div>
+				<div id="phand4"></div>
+				<div id="phand5"></div>
+				<div id="phand6"></div>
+				<div id="phand7"></div>
+			</div>
+		</section>
+		<section id="results">
+            <h1></h1>
+		</section>	
         <button class="hidden" id="hit">Hit</button>
-		<button id="play">Play</button>
         <button class="hidden" id="stand">Stand</button>
+		<button id="play">Play</button>
 	</body>
 </html>
