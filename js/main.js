@@ -355,7 +355,7 @@ function winCondition() {
         return
     }
     if (dealerSum === playerSum){
-        resultsEl.textContent = `The dealer and you have tied. You both had ${playerSum}. Your bet of ${player.bet}has been added back into your bankroll.`;
+        resultsEl.textContent = `The dealer and you have tied. You both had ${playerSum}. Your bet of ${player.bet} has been added back into your bankroll.`;
         processTie();
         reset();
         return

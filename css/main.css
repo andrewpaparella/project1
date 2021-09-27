@@ -6,7 +6,6 @@
 body {
     margin: 0;
     display: flex;
-    height: 100vh;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -14,60 +13,76 @@ body {
 
 #board {
     display: absolute;
-    top: 100px;
-    padding-top: 100px;
+    top: 10px;
+    padding-top: 0px;
+    margin-top: 0px;
+    font-size: 24px;
 }
 
 #dealer {
     font-display: top;
-    width: 500px;
-    height: 200px;
+    width: 700px;
+    height: 290px;
     border: 5px solid #000;
-    margin: 40px;
     font-size: 20px;
     text-align: center;
+    padding: 0px;
+}
+
+#dealer h1, #dealer h2{
+    margin: 5px;
 }
 
 #player {
     font-display: top;
-    width: 500px;
-    height: 200px;
+    width: 700px;
+    height: 290px;
     border: 5px solid #000;
     margin: 40px 0px 0px 0px;
     font-size: 20px;
     text-align: center;
 }
 
-#money {
-    width: 500px;
-    height: 200px;
-    margin: 40px;
-    font-size: 20px;
+#player h1, #player h2{
+    margin: 5px;
+}
+
+#money, #bets {
+    width: 700px;
+    height: 1px;
+    font-size: 18px;
     text-align: center;
-    padding-bottom: 50px;
+    padding: 15px;
     margin-bottom: 100px;
+}
+
+#money h1, #bets h1{
+    margin: 10px;
+}
+
+
+#bank-roll{
+    padding: 0px;
+    margin: 0px;
 }
 
 #results {
     font-display: top;
-    width: 500px;
-    height: 200px;
+    width: 700px;
+    height: 150px;
     border: 5px solid #000;
-    margin: 40px;
+    margin: 40px 0px 5px 0px;
     font-size: 20px;
     text-align: center;
+    padding-bottom: 0px;
 }
-#play, #stand {
-    display: flex;
-    margin: 0% 49%;
-    border: 5px solid red;
-    color: red;
-    border-radius: 5px;
-    background: black;
+#play-btn {
+    padding-top: 0px;
+    display: inline;
+    place-self: center;
 }
 
-#hit {
-    display: flex;
+#hit, #stand, #play {
     border: 5px solid red;
     color: red;
     border-radius: 5px;
@@ -75,7 +90,7 @@ body {
 }
 
 #bet1, #bet5, #bet10, #bet25, #bet50 {
-    display: flex;
+    display: inline;
     place-self: center;
     grid-column-start: 5;
     grid-row-start: 5;
@@ -86,6 +101,11 @@ body {
     height: 30px;
     width: 30px;
     text-align: center;
+    margin-top: 10px;
+}
+
+#bet10, #bet25, #bet50 {
+    padding-right: 15px;
 }
 
 

@@ -14,8 +14,8 @@
 			<h1>Andrew's Blackjack</h1>
 		</section>
 		<section id="dealer">
-			<h1>Dealer</h1>
-			<h2></h2>
+			<h1 class="dealer-h1">Dealer</h1>
+			<h2 class="dealer-h1"></h2>
 			<div>
                 <div id="dhand1"></div>
 				<div id="dhand2"></div>
@@ -26,14 +26,14 @@
 				<div id="dhand7"></div>
 			</div>
 		</section>
-        <section id="money">
+        <div id="money">
             <h1>Bankroll</h1>
             <h2 id="bankroll">100</h2>
+		</div>
         <div id="bets">
             <h1>Running Bet</h1>
             <h2>0</h2>
 		</div>
-		</section>
 		<section id="bet">
         	<button class="bet" id="bet1">1</button>
         	<button class="bet" id="bet5">5</button>
@@ -56,9 +56,11 @@
 		</section>
 		<section id="results">
             <h1></h1>
-		</section>	
+		</section>
+		<section id="play-btn">
         <button class="hidden" id="hit">Hit</button>
-        <button class="hidden" id="stand">Stand</button>
 		<button id="play">Play</button>
+        <button class="hidden" id="stand">Stand</button>
+		</section>
 	</body>
 </html>
